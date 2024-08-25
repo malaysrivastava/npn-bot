@@ -1,9 +1,21 @@
-.container {
-	width: 80%;
-	margin: auto;
-	padding: 0 2rem;
-}
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 100vh;
+		background-color: #f4f4f4;
+		padding: 20px;
+	}
 
+/* Balance Display */
+.balance-display {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+  }
+  
 .main {
 	min-height: 100vh;
 	padding: 4rem 0;
@@ -26,23 +38,30 @@
 	text-decoration: none;
 }
 
+/* Grid Layout for Buttons */
 .grid {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-}
-
-.card {
-	margin: 0.5rem;
-	padding: 0.7rem;
-	text-align: center;
-	color: #0070f3;
-	background-color: #fafafa;
-	text-decoration: none;
-	border: 1px solid #0070f3;
-	border-radius: 10px;
-	transition: color 0.15s ease, border-color 0.15s ease;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 20px;
 	width: 100%;
+	max-width: 600px;
+	margin: 20px 0;
+  }
+/* Button Styles */
+.card {
+	background-color: #007bff;
+	color: #ffffff;
+	border: none;
+	padding: 15px 20px;
+	text-align: center;
+	font-size: 16px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+  }
+
+.card:hover {
+background-color: #0056b3;
 }
 
 .card:hover,
@@ -80,24 +99,36 @@
 	}
 }
 
+/* Flex Container for Button Sections */
 .flex-container {
 	display: flex;
-	flex-flow: row wrap;
-}
+	flex-direction: column;
+	gap: 10px;
+  }
+  
+  /* Flexbox for Aligning Center */
+  .flex-container > div {
+	display: flex;
+	justify-content: center;
+  }
 
-.flex-container > div {
-	width: 100px;
-	margin: 10px;
-	text-align: center;
-	line-height: 75px;
-	font-size: 30px;
-}
-
+/* Console Output Styling */
 #console {
+	background-color: #333333;
+	color: #ffffff;
+	padding: 15px;
+	border-radius: 8px;
 	width: 100%;
-	height: 100%;
-	overflow: auto;
-	word-wrap: break-word;
-	font-size: 16px;
-	font-family: monospace;
+	max-width: 600px;
+	margin-top: 20px;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 14px;
+  }	
+
+@media (min-width: 768px) {
+.flex-container {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
 }
