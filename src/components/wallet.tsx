@@ -130,13 +130,13 @@ const WalletAuth=()=> {
     uiConsole(signedMessage);
   };
 
-  const sendTransaction = async () => {
+   const sendTransaction = async (address:string,amount?:any) => {
     if (!provider) {
       uiConsole("provider not initialized yet");
       return;
     }
     uiConsole("Sending Transaction...");
-    const transactionReceipt = await RPC.sendTransaction(provider);
+    const transactionReceipt = await RPC.sendTransaction(provider,address,amount);
     uiConsole(transactionReceipt);
   };
   // IMP END - Blockchain Calls
@@ -170,11 +170,6 @@ const WalletAuth=()=> {
         <div>
           <button onClick={signMessage} className="card">
             Sign Message
-          </button>
-        </div>
-        <div>
-          <button onClick={sendTransaction} className="card">
-            Send Transaction
           </button>
         </div>
         <div>

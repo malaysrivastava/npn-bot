@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
             <Toolbar>
                 {/* Logo or Brand Name */}
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    AutoN
+                    AutoNPC
                 </Typography>
 
                 {/* Profile Icon */}

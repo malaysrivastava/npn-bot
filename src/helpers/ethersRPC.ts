@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IProvider } from "@web3auth/base";
-import { ethers } from "ethers";
+import { AddressLike, ethers } from "ethers";
 
 const getChainId = async (provider: IProvider): Promise<any> => {
   try {
@@ -46,17 +46,16 @@ const getBalance = async (provider: IProvider): Promise<string> => {
   }
 }
 
-const sendTransaction = async (provider: IProvider): Promise<any> => {
+const sendTransaction = async (provider: IProvider, address: AddressLike, value?:any): Promise<any> => {
   try {
     const ethersProvider = new ethers.BrowserProvider(provider);
     const signer = await ethersProvider.getSigner();
 
-    const destination = "0x1b217f5d5F0FD829e2dC209f7B11314EfF28fCbc";
 
-    const amount = ethers.parseEther("0.001");
+    const amount = ethers.parseEther(value || "0.001");
     // Submit transaction to the blockchain
     const tx = await signer.sendTransaction({
-      to: destination,
+      to: address,
       value: amount,
       gasLimit: "21000",
     });
