@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import RPC from "../helpers/ethersRPC";
 
 // IMP START - Dashboard Registration
-const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ"; // get from https://dashboard.web3auth.io
+const clientId = "BIIiazAq8n6j8hQrLOAVMkO8Y9orNdK0z6keePk4hKtLcXB-VJVMVc8Q25XXmMTOUJkwwP4FoA5Tgfsdfzm4Yec"; // get from https://dashboard.web3auth.io
 // IMP END - Dashboard Registration
 
 // IMP START - Chain Config
 const chainConfig = {
-  chainNamespace: CHAIN_NAMESPACES.EIP155,
-  chainId: "0xaa36a7",
+  chainNamespace: CHAIN_NAMESPACES.OTHER,
+  chainId: "0x13882",
   rpcTarget: "https://rpc.ankr.com/eth_sepolia",
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
@@ -31,7 +31,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 const web3auth = new Web3Auth({
   clientId,
-  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
+  web3AuthNetwork: WEB3AUTH_NETWORK.TESTNET,
   privateKeyProvider,
 });
 // IMP END - SDK Initialization
