@@ -11,8 +11,8 @@ const clientId = "BIIiazAq8n6j8hQrLOAVMkO8Y9orNdK0z6keePk4hKtLcXB-VJVMVc8Q25XXmM
 
 // IMP START - Chain Config
 const chainConfig = {
-  chainNamespace: CHAIN_NAMESPACES.OTHER,
-  chainId: "0x13882",
+  chainNamespace: CHAIN_NAMESPACES.EIP155,
+  chainId: "0xaa36a7",
   rpcTarget: "https://rpc.ankr.com/eth_sepolia",
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
@@ -31,7 +31,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 const web3auth = new Web3Auth({
   clientId,
-  web3AuthNetwork: WEB3AUTH_NETWORK.TESTNET,
+  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
   privateKeyProvider,
 });
 // IMP END - SDK Initialization
