@@ -9,7 +9,6 @@ import RPC from "../helpers/ethersRPC";
 const clientId = "BIIiazAq8n6j8hQrLOAVMkO8Y9orNdK0z6keePk4hKtLcXB-VJVMVc8Q25XXmMTOUJkwwP4FoA5Tgfsdfzm4Yec"; // get from https://dashboard.web3auth.io
 // IMP END - Dashboard Registration
 
-// IMP START - Chain Config
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
   chainId: "0xaa36a7",
@@ -22,9 +21,7 @@ const chainConfig = {
   tickerName: "Ethereum",
   logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
 };
-// IMP END - Chain Config
 
-// IMP START - SDK Initialization
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
 });
@@ -34,26 +31,25 @@ const web3auth = new Web3Auth({
   web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
   privateKeyProvider,
 });
-// IMP END - SDK Initialization
 
-const WalletAuth=()=> {
+const WalletAuth = () => {
   const { login } = useAuth();
-  const {logout} = useAuth();
+  const { logout } = useAuth();
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [balance, setBalance] = useState<string | null>(null); // State to store balance
+  const [address, setAddress] = useState<string | null>(null); // State to store balance
 
   useEffect(() => {
     const init = async () => {
       try {
-        // IMP START - SDK Initialization
         await web3auth.initModal();
-        // IMP END - SDK Initialization
         setProvider(web3auth.provider);
 
         if (web3auth.connected && localStorage.getItem('isLoggedIn') === 'true') {
           setLoggedIn(true);
         } else {
-          setLoggedIn(false)
+          setLoggedIn(false);
           setProvider(null);
         }
       } catch (error) {
@@ -64,45 +60,47 @@ const WalletAuth=()=> {
     init();
   }, []);
 
+  useEffect(()=>{
+    if(provider){
+      const init = async () => {
+        const address = await RPC.getAccounts(provider);
+    const balance = await RPC.getBalance(provider);
+    setBalance(balance);
+    setAddress(address)
+      }
+      init();
+    }
+  },[provider])
+
   const Login = async () => {
     const web3authProvider = await web3auth.connect();
-    // IMP END - Login
     setProvider(web3authProvider);
     if (web3auth.connected) {
       setLoggedIn(true);
-      const user  = await web3auth.getUserInfo();
+      const user = await web3auth.getUserInfo();
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('userInfo', user.profileImage as string);
       login(web3authProvider);
-      // Redirect the user to the login page
       window.location.href = '/';
     }
   };
 
   const getUserInfo = async () => {
-    // IMP START - Get User Information
     const user = await web3auth.getUserInfo();
-    // IMP END - Get User Information
     uiConsole(user);
   };
 
   const Logout = async () => {
-    // IMP START - Logout
     await web3auth.logout();
-    // IMP END - Logout
     logout();
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userInfo');
-
-    // Redirect the user to the login page
     window.location.href = '/';
     setProvider(null);
     setLoggedIn(false);
     uiConsole("logged out");
   };
 
-  // IMP START - Blockchain Calls
-  // Check the RPC file for the implementation
   const getAccounts = async () => {
     if (!provider) {
       uiConsole("provider not initialized yet");
@@ -110,6 +108,7 @@ const WalletAuth=()=> {
     }
     const address = await RPC.getAccounts(provider);
     uiConsole(address);
+    setAddress(address)
   };
 
   const getBalance = async () => {
@@ -118,6 +117,7 @@ const WalletAuth=()=> {
       return;
     }
     const balance = await RPC.getBalance(provider);
+    setBalance(balance); // Update balance state
     uiConsole(balance);
   };
 
@@ -139,7 +139,6 @@ const WalletAuth=()=> {
     const transactionReceipt = await RPC.sendTransaction(provider);
     uiConsole(transactionReceipt);
   };
-  // IMP END - Blockchain Calls
 
   function uiConsole(...args: any[]): void {
     const el = document.querySelector("#console>p");
@@ -188,10 +187,16 @@ const WalletAuth=()=> {
       Login
     </button>
   );
-
+  
   return (
     <div className="container">
-
+      {/* Balance Display */}
+      <div className="balance-display">
+        {balance !== null ? `Balance: ${balance} ETH` : "Balance not available"}
+      </div>
+      <div className="balance-display">
+        {address !== null ? `Address: ${address}` : "Address not available"}
+      </div>
       <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
       <div id="console" style={{ whiteSpace: "pre-line" }}>
         <p style={{ whiteSpace: "pre-line" }}></p>
