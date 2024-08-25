@@ -4,7 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { OnrampWebSDK } from '@onramp.money/onramp-web-sdk';
 import axios from 'axios';
 
-const url = 'https://4fb3-2401-4900-1c70-908a-8368-e587-4c74-ca74.ngrok-free.app/process';
+const url = 'https://508d-103-54-101-26.ngrok-free.app/process';
 const Events = {ONRAMP_WIDGET_TX_INIT:"ONRAMP_WIDGET_TX_INIT", 
     ONRAMP_WIDGET_TX_FINDING:"ONRAMP_WIDGET_TX_FINDING", 
     ONRAMP_WIDGET_TX_PURCHASING:"ONRAMP_WIDGET_TX_PURCHASING", 
@@ -54,8 +54,11 @@ const Chatbot: React.FC = () => {
         if (input.trim()) {
             setMessages((prevMessages) => [...prevMessages, input]);
             setInput('');
-            await axios.post(url, { user_input:input,isLogged:localStorage.getItem('isLoggedIn') === 'true' }).then((res)=>{
+            await axios.post(url, { user_input:input,is_logged:localStorage.getItem('isLoggedIn') === 'true' }).then((res)=>{
             setMessages((prevMessages) => [...prevMessages, res?.data?.message]);
+            if(res?.data?.action ==1){
+                openWidget();
+            }
             }).catch(()=>{
                 setMessages((prevMessages) => [...prevMessages, 'Something went wrong']);
             })

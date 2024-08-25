@@ -30,7 +30,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 const web3auth = new Web3Auth({
   clientId,
-  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
+  web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_DEVNET,
   privateKeyProvider,
 });
 
@@ -225,10 +225,10 @@ const WalletAuth = () => {
     <div className="container">
       {/* Balance Display */}
       <div className="balance-display">
-        {balance !== null ? `Balance: ${balance} ETH` : "Balance not available"}
+        {balance !== null ? `Balance: ${balance} ETH` : ""}
       </div>
       <div className="balance-display">
-        {address !== null ? `Address: ${address}` : "Address not available"}
+        {address !== null ? `Address: ${address}` : ""}
       </div>
       <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
       <div id="console" style={{ whiteSpace: "pre-line" }}>
