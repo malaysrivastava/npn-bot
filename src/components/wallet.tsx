@@ -4,6 +4,8 @@ import { Web3Auth } from "@web3auth/modal";
 import { useAuth } from '../helpers/authContext';
 import { useEffect, useState } from "react";
 import RPC from "../helpers/ethersRPC";
+import { TextField, Button, Typography, Container } from '@mui/material';
+
 
 // IMP START - Dashboard Registration
 const clientId = "BIIiazAq8n6j8hQrLOAVMkO8Y9orNdK0z6keePk4hKtLcXB-VJVMVc8Q25XXmMTOUJkwwP4FoA5Tgfsdfzm4Yec"; // get from https://dashboard.web3auth.io
@@ -41,6 +43,17 @@ const WalletAuth=()=> {
   const {logout} = useAuth();
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [input1, setInput1] = useState('');
+  const [input2, setInput2] = useState('');
+
+  // Handle form submission
+  const handleSubmit = async (event:any) => {
+      event.preventDefault(); // Prevent the default form submission behavior
+        try {
+         sendTransaction(input1,input2);
+      } catch (error) {
+      }
+  };
 
   useEffect(() => {
     const init = async () => {
@@ -168,13 +181,38 @@ const WalletAuth=()=> {
           </button>
         </div>
         <div>
-          <button onClick={signMessage} className="card">
-            Sign Message
-          </button>
-        </div>
-        <div>
         </div>
       </div>
+        <div>
+        <Container>
+            <Typography variant="h6" gutterBottom>
+                Send Ether
+            </Typography>
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    label="Address"
+                    variant="outlined"
+                    size="small"
+                    value={input1}
+                    onChange={(e) => setInput1(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    label="Amount"
+                    variant="outlined"
+                    size="small"
+                    value={input2}
+                    onChange={(e) => setInput2(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
+                <Button type="submit" variant="contained" color="primary">
+                    Send
+                </Button>
+            </form>
+        </Container>
+        </div>
     </>
   );
 
