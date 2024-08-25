@@ -51,18 +51,16 @@ const sendTransaction = async (provider: IProvider): Promise<any> => {
     const ethersProvider = new ethers.BrowserProvider(provider);
     const signer = await ethersProvider.getSigner();
 
-    const destination = "0x40e1c367Eca34250cAF1bc8330E9EddfD403fC56";
+    const destination = "0x1b217f5d5F0FD829e2dC209f7B11314EfF28fCbc";
 
     const amount = ethers.parseEther("0.001");
-
     // Submit transaction to the blockchain
     const tx = await signer.sendTransaction({
       to: destination,
       value: amount,
-      maxPriorityFeePerGas: "5000000000", // Max priority fee per gas
-      maxFeePerGas: "6000000000000", // Max fee per gas
+      gasLimit: "21000",
     });
-
+    console.log(tx)
     // Wait for transaction to be mined
     const receipt = await tx.wait();
 
